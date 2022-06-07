@@ -1,0 +1,64 @@
+import objects.*
+
+describe "Testsitos" {
+	
+	const bsAs = new Provincia(nombre="Buenos Aires", poblacion=25)
+	const sgoDelEstero = new Provincia(nombre="Santiago del Estero", poblacion=10)
+	const tucuman = new Provincia(nombre="Tucuman", poblacion=2)
+	
+	const caba = new Ciudad(nombre = "Ciudad Autónoma de Buenos Aires", estaEnProvincia= bsAs) 
+	const laBanda = new Ciudad(nombre = "La Banda", estaEnProvincia= sgoDelEstero)
+	const sanMiguel = new Ciudad(nombre = "San Miguel de Tucumán", estaEnProvincia= tucuman)
+	
+	const fijo = new VendedorFijo(ciudadDondeVive=caba)
+	const viajante = new Viajante()
+	const corresponsal = new ComercioCorresponsal()
+	
+	const certificadoAfip = new Certificacion(nombre="AFIP", puntosQueOtorga=20, esSobreProducto=false)
+	const certificadoArba = new Certificacion(nombre="ARBA", puntosQueOtorga=5, esSobreProducto=false)
+	const certificadoAlcohol = new Certificacion(nombre="Alcohol", puntosQueOtorga=10, esSobreProducto=true)
+	
+	test "Fijo" {
+		assert.that(fijo.puedeTrabajarEn(caba))
+		assert.notThat(fijo.puedeTrabajarEn(sanMiguel))
+		
+		fijo.otorgarCertificaciones([certificadoAfip])
+		assert.notThat(fijo.esVersatil())
+		assert.notThat(fijo.esFirme())
+		
+		fijo.otorgarCertificaciones([certificadoArba, certificadoAlcohol])
+		assert.that(fijo.esVersatil())
+		assert.that(fijo.esFirme())
+	}
+	
+	test "Viajante" {
+		viajante.habilitarEnProvincias([bsAs, sgoDelEstero])
+		
+		assert.that(viajante.puedeTrabajarEn(caba))
+		assert.notThat(viajante.puedeTrabajarEn(sanMiguel))
+		
+		viajante.otorgarCertificaciones([certificadoAfip])
+		assert.notThat(viajante.esVersatil())
+		assert.notThat(viajante.esFirme())
+		
+		viajante.otorgarCertificaciones([certificadoArba, certificadoAlcohol])
+		assert.that(viajante.esVersatil())
+		assert.that(viajante.esFirme())
+	}
+	
+	test "Corresponsal" {
+		corresponsal.crearSucursalEn([caba, laBanda])
+		
+		assert.that(corresponsal.puedeTrabajarEn(caba))
+		assert.notThat(corresponsal.puedeTrabajarEn(sanMiguel))
+		
+		corresponsal.otorgarCertificaciones([certificadoAfip])
+		assert.notThat(corresponsal.esVersatil())
+		assert.notThat(corresponsal.esFirme())
+		
+		corresponsal.otorgarCertificaciones([certificadoArba, certificadoAlcohol])
+		assert.that(corresponsal.esVersatil())
+		assert.that(corresponsal.esFirme())
+	}
+	
+}
