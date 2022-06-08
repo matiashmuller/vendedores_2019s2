@@ -38,7 +38,7 @@ class Vendedor {
 	method tieneAfinidadCon(centro) = self.puedeTrabajarEn(centro.ciudadDondeEsta())
 	method esCandidatoPara(centro) = self.esVersatil() && self.tieneAfinidadCon(centro)
 	
-	method esPersonaFisica()
+	method esPersonaFisica() = true
 }
 
 class VendedorFijo inherits Vendedor {
@@ -47,8 +47,6 @@ class VendedorFijo inherits Vendedor {
 	override method puedeTrabajarEn(unaCiudad) = unaCiudad == ciudadDondeVive
 	
 	override method esInfluyente() = false
-	
-	override method esPersonaFisica() = true
 }
 
 class Viajante inherits Vendedor {
@@ -60,8 +58,6 @@ class Viajante inherits Vendedor {
 	override method puedeTrabajarEn(unaCiudad) = provinciasHabilitado.contains(unaCiudad.estaEnProvincia())
 
 	override method esInfluyente() = provinciasHabilitado.sum{ p => p.poblacion()} >= 10
-	
-	override method esPersonaFisica() = true
 }
 
 class ComercioCorresponsal inherits Vendedor {
