@@ -4,7 +4,7 @@ class CentroDeDistribucion{
 	
 	method agregarVendedor(vendedor) {
 		if (vendedores.contains(vendedor)) self.error("El vendedor ya está registrado")
-		else vendedores.add(vendedor)
+		vendedores.add(vendedor)
 	}
 	method vendedorEstrella() = vendedores.max{ v => v.puntajeTotal() }
 	method puedeCubrir(ciudad) = vendedores.any{ v => v.puedeTrabajarEn(ciudad) }
